@@ -1,5 +1,5 @@
 ## comboBoxSearch
-A header library to easily create a search suggestions system for Win32 comboBoxes.
+A single-header library to easily create a search suggestions system for Win32 comboBoxes.
 ### Tutorial
 I created this library to be super easy to use.
 
