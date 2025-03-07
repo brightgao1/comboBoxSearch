@@ -20,4 +20,5 @@ ShowWindow(cb, SW_SHOW), UpdateWindow(cb);
 ```
 #### Result:
 
-![bandicam2025-03-0711-06-30-041online-video-cutter com-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/a6d02803-3999-4c5b-b247-76803a06b124)
+![bandicam2025-03-0711-06-30-041online-video-cutter com-ezgif com-video-to-gif-converter (1)](https://github.com/user-attachments/assets/54b9ac31-2401-4539-9bb6-0b85f8f30708)
+
