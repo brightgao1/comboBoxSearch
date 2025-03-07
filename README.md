@@ -18,5 +18,6 @@ for (int i = 0; i < strings.size(); i++) SendMessageW(cb, CB_ADDSTRING, 0, (LPAR
 comboBoxSearch cbSearch; cbSearch.makeSearchable(cb);
 ShowWindow(cb, SW_SHOW), UpdateWindow(cb);
 ```
-Result: 
+#### Result:
+
 ![bandicam2025-03-0711-06-30-041online-video-cutter com-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/11fd7b18-7c35-4d4d-9650-6027ec88ba5f)
