@@ -22,5 +22,10 @@ ShowWindow(cb, SW_SHOW), UpdateWindow(cb);
 
 ![bandicam2025-03-0711-06-30-041online-video-cutter com-ezgif com-video-to-gif-converter (1)](https://github.com/user-attachments/assets/54b9ac31-2401-4539-9bb6-0b85f8f30708)
 
+### FAQ
+Q: Why isn't there much customization?
+A: Ease-of-use was the first priority when I created this library. If I add more parameters and things that the library user has to learn, it would reduce the chance of ppl using it. If you want to modify the code to achieve your specific needs, feel free to do so.
 
-hello
+Q: Why did you create this? Win32 is dead.
+A: It is still the most performant. Also, the whole reason I created this was b/c in developing my app BrightType, I wanted users to be able to search fonts in a combobox. I looked on stackoverflow, and ppl also were trying to figure this out. You can use IAutoComplete, but there exist drawbacks (Windows 10 required, very manual, etc.) so I learned about trie and implemented it into BrightType. So it isn't like I wasted much time in this, as I implemented it into my app before creating this. All I needed to do was make some minor adjustments and testing. 
+
