@@ -1,12 +1,12 @@
 // Created by Bright Gao. Feel free to contact me for any reason: brightgao1234@gmail.com
-// You may modify the code and use this library all you want, but pls don't remove this comment qwq
+// You may modify the code and use this library all you want :D
 #pragma once
 #include <windows.h>
 #include <vector>
 #include <array>
 #include <map>
 #include <string>
-std::map<HWND, std::vector<std::wstring>> comboBoxFullStrList; std::map<HWND, bool> comboBoxIsLowerOnly;
+std::map<HWND, std::vector<std::wstring>> COMBOBOXSEARCHFullStrList_; std::map<HWND, bool> COMBOBOXSEARCHIsLowerOnly_;
 // You Should NOT need to call any function from preTree or preTreeLowerOnly
 // ONLY create the comboBoxSearch struct and call makeSearchable, which will create the trie and call the functions of the trie when the edit of the cb changes
 // (The point of the library is to make it as EZ as possible for u to create a very standard prefix-search-suggestion combo box, w/o needing to implement a trie or handle the CB_EDITCHANGE notifs to its parent... ofc u may modify the code if u want more control/customization)
@@ -96,26 +96,26 @@ struct preTreeLowerOnly {// spaces are allowed too, ind 0-25 (inclusive) is a-z,
         return curr;
     }
 };
-std::map<HWND, preTreeLowerOnly> comboBoxPreTreeLowerOnly; std::map<HWND, preTree> comboBoxPreTree;
+std::map<HWND, preTreeLowerOnly> COMBOBOXSEARCHPreTreeLowerOnly_; std::map<HWND, preTree> COMBOBOXSEARCHPreTree_;
 inline LRESULT CALLBACK comboBoxSearchParentSubclass(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) {
     if (message == WM_COMMAND) {
         HWND cb = (HWND)lParam;
         if (HIWORD(wParam) == CBN_EDITCHANGE && !GetWindowTextLengthW(cb)) {
             SendMessageW(cb, CB_RESETCONTENT, 0, 0), SetFocus(cb);
-            for (int i = 0; i < comboBoxFullStrList[cb].size(); i++) SendMessageW(cb, CB_ADDSTRING, 0, (LPARAM)comboBoxFullStrList[cb][i].c_str());
+            for (int i = 0; i < COMBOBOXSEARCHFullStrList_[cb].size(); i++) SendMessageW(cb, CB_ADDSTRING, 0, (LPARAM)COMBOBOXSEARCHFullStrList_[cb][i].c_str());
             SendMessageW(cb, CB_SHOWDROPDOWN, TRUE, 0);
         }
         else if (HIWORD(wParam) == CBN_EDITCHANGE && GetWindowTextLengthW(cb)) {
             wchar_t* buf = new wchar_t[GetWindowTextLengthW(cb) + 1];
             GetWindowTextW(cb, buf, GetWindowTextLengthW(cb) + 1); std::wstring userIn = buf; delete[] buf;
             SendMessageW(cb, CB_RESETCONTENT, 0, 0), SetWindowTextW(cb, userIn.c_str()), SendMessageW(cb, CB_SETEDITSEL, 0, MAKELPARAM(userIn.length(), userIn.length()));
-            if (comboBoxIsLowerOnly[cb]) {
-                preTreeLowerOnly ptlo = comboBoxPreTreeLowerOnly[cb]; int afterPre = ptlo.search(userIn);
+            if (COMBOBOXSEARCHIsLowerOnly_[cb]) {
+                preTreeLowerOnly ptlo = COMBOBOXSEARCHPreTreeLowerOnly_[cb]; int afterPre = ptlo.search(userIn);
                 if (afterPre != -1) ptlo.dfs(afterPre);
                 SendMessageW(cb, CB_SHOWDROPDOWN, TRUE, 0);
             }
             else {
-                preTree pt = comboBoxPreTree[cb]; int afterPre = pt.search(userIn);
+                preTree pt = COMBOBOXSEARCHPreTree_[cb]; int afterPre = pt.search(userIn);
                 if (afterPre != -1) pt.dfs(afterPre);
                 SendMessageW(cb, CB_SHOWDROPDOWN, TRUE, 0);
             }
@@ -134,19 +134,19 @@ struct comboBoxSearch {
             for (int i = 0; i < entryCnt; i++) {
                 wchar_t* buf = new wchar_t[SendMessageW(cb, CB_GETLBTEXTLEN, i, 0) + 1];
                 SendMessageW(cb, CB_GETLBTEXT, i, (LPARAM)buf); std::wstring ws = buf; delete[] buf;
-                comboBoxFullStrList[cb].push_back(ws), ptlo.insert(ws);
+                COMBOBOXSEARCHFullStrList_[cb].push_back(ws), ptlo.insert(ws);
             }
-            comboBoxPreTreeLowerOnly[cb] = ptlo;
+            COMBOBOXSEARCHPreTreeLowerOnly_[cb] = ptlo;
         }
         else {
             pt.init(lenSum, cb);
             for (int i = 0; i < entryCnt; i++) {
                 wchar_t* buf = new wchar_t[SendMessageW(cb, CB_GETLBTEXTLEN, i, 0) + 1];
                 SendMessageW(cb, CB_GETLBTEXT, i, (LPARAM)buf); std::wstring ws = buf; delete[] buf;
-                comboBoxFullStrList[cb].push_back(ws), pt.insert(ws);
+                COMBOBOXSEARCHFullStrList_[cb].push_back(ws), pt.insert(ws);
             }
-            comboBoxPreTree[cb] = pt;
-        }   
-        comboBoxIsLowerOnly[cb] = lo, SetWindowLongPtrW(GetParent(cbTemp), GWLP_WNDPROC, (LONG_PTR)comboBoxSearchParentSubclass);
+            COMBOBOXSEARCHPreTree_[cb] = pt;
+        }
+        COMBOBOXSEARCHIsLowerOnly_[cb] = lo, SetWindowLongPtrW(GetParent(cbTemp), GWLP_WNDPROC, (LONG_PTR)comboBoxSearchParentSubclass);
     }
 };
