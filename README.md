@@ -1,5 +1,5 @@
 ## comboBoxSearch
-A single-header library to easily create a search suggestions system for Win32 comboBoxes. Note that this is **NOT** thread safe.
+A single-header library to easily create a search suggestions system for Win32 comboBoxes. Note that this is **NOT** thread safe. If using C++17 and up, I strongly suggest making the global maps inline (on line 9 and 99). This way you can use this library in multiple C++ files w/o violating the One Definition Rule.
 ### Tutorial
 I created this library to be super easy to use.
 
