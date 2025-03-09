@@ -53,4 +53,4 @@ And this was instant for 10k strs, only taking ~2 ms. It's probably a memset or 
 So the culprit was CB_DELETESTRING, or moreso the implementation of the Win32 comboBox. CB_DELETESTRING requires index as WPARAM, while CB_ADDSTRING adds to the end, so this prob was a hint... but still.
 
 Even if I had gotten the combobox info & text, destroyed the combobox, the created it w/ the info, then set the text... it would still be so much faster, like nearly instant. 
-***tldr; Always do extensive testing, as things may not be as they seem***
+***tldr; CB_DELETESTRING is slow, no matter where you delete from the comboBox***
